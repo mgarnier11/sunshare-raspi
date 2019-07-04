@@ -1,20 +1,24 @@
 import React from 'react';
+import { Route, withRouter, Switch, Redirect } from 'react-router-dom';
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
+
+import Admin from './Admin/Admin';
+import Display from './Display/Display';
 
 const App = () => (
   <div className="App">
-    <header className="App-header">
-      <p>
-        Edit <code>src/App.js</code> and save to reload.
-      </p>
-      <a
-        className="App-link"
-        href="https://reactjs.org"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Learn React
-      </a>
-    </header>
+    <Switch>
+      <Route exact path="/admin" component={Admin} />
+      <Route
+        path="/"
+        component={() => (
+          <DndProvider backend={HTML5Backend}>
+            <Display />
+          </DndProvider>
+        )}
+      />
+    </Switch>
   </div>
 );
 
