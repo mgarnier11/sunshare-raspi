@@ -1,13 +1,9 @@
 import React from 'react';
-import Card from '../../modules/Test';
-import DndModule from '../Admin/DnDModule/DnDModule';
-import Board from '../Admin/Board/Board';
+import Board from '../Board/Board';
+import ModuleLoader from '../ModuleLoader';
 
 const Display = () => (
   <div className="display">
-    <DndModule>
-      <Card text="patate" />
-    </DndModule>
     <Board />
   </div>
 );

@@ -16,9 +16,7 @@ code {
   height: 800px;
   width: 800px;
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
   grid-gap: 5px;
-  grid-template-rows: repeat(10, 1fr);
 }
 
 .board-square {

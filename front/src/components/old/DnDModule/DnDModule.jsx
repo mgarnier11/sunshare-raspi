@@ -4,7 +4,7 @@ import { DND_MODULE } from '../../../dragAndDrop/constants';
 
 const DndModule = ({ children }) => {
   const [{ opacity }, dragRef] = useDrag({
-    item: { type: DND_MODULE, module },
+    item: { type: DND_MODULE, children },
     collect: monitor => ({
       opacity: monitor.isDragging() ? 0.5 : 1
     })

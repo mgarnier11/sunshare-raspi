@@ -1,6 +1,8 @@
 import React from 'react';
 import { useDrop } from 'react-dnd';
 import { DND_MODULE } from '../../../dragAndDrop/constants';
+import DndModule from '../DnDModule/DnDModule';
+import myModule from '../../../modules/Test';
 
 function test(x, y) {
   console.log(x, y);
@@ -9,7 +11,10 @@ function test(x, y) {
 export const BoardSquare = ({ x, y }) => {
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: DND_MODULE,
-    drop: () => test(x, y),
+    drop: (item, monitor) => {
+      console.log(item, monitor);
+      test(x, y);
+    },
     collect: monitor => ({
       isOver: !!monitor.isOver(),
       canDrop: !!monitor.canDrop()
@@ -20,10 +25,12 @@ export const BoardSquare = ({ x, y }) => {
       ref={drop}
       className="board-square"
       style={{
-        gridRow: x,
-        gridColumn: y,
         backgroundColor: isOver ? 'red' : 'white'
       }}
-    />
+    >
+      <DndModule>
+        <myModule.m text="patate" />
+      </DndModule>
+    </div>
   );
 };
