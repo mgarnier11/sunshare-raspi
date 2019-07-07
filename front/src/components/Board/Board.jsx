@@ -6,10 +6,11 @@ import { addModule } from '../../redux/actions/board-actions';
 
 import Patate from '../../modules/Patate';
 import Test from '../../modules/Test';
+import ModuleLoader from '../ModuleLoader';
 
 const mapStateToProps = state => {
   return {
-    boardLayout: state.board.layout
+    board: state.board
   };
 };
 
@@ -27,25 +28,13 @@ class Board extends Component {
 
     this.props.addModule({
       componentName: Patate.componentName,
-      position: { x: 1, y: 2 },
-      size: Patate.size
-    });
-
-    this.props.addModule({
-      componentName: Patate.componentName,
-      position: { x: 4, y: 2 },
+      position: { x: 7, y: 2 },
       size: Patate.size
     });
 
     this.props.addModule({
       componentName: Patate.componentName,
       position: { x: 7, y: 2 },
-      size: Patate.size
-    });
-
-    this.props.addModule({
-      componentName: Test.componentName,
-      position: { x: 2, y: 6 },
       size: Patate.size
     });
   }
@@ -55,16 +44,25 @@ class Board extends Component {
       <div
         className="board"
         style={{
-          gridTemplateColumns:
-            'repeat(' + this.props.boardLayout.length + ', 1fr)',
-          gridTemplateRows:
-            'repeat(' + this.props.boardLayout[0].length + ', 1fr)'
+          gridTemplateColumns: 'repeat(' + this.props.board.width + ', 1fr)',
+          gridTemplateRows: 'repeat(' + this.props.board.height + ', 1fr)'
         }}
       >
-        {this.props.boardLayout.map((line, x) => {
-          return line.map((accept, y) => {
+        {[...Array(this.props.board.height)].map((valueX, x) => {
+          return [...Array(this.props.board.width)].map((valueY, y) => {
             return <BoardSquare x={x} y={y} />;
           });
+        })}
+        {this.props.board.modules.map(m => {
+          return (
+            <ModuleLoader
+              componentName={m.componentName}
+              moduleProps={{
+                position: { x: m.position.x, y: m.position.y },
+                id: m.id
+              }}
+            />
+          );
         })}
       </div>
     );

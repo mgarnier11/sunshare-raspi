@@ -1,22 +1,35 @@
 import React from 'react';
+import { useDrag } from 'react-dnd';
+import { DND_MODULE } from '../dragAndDrop/constants';
 
-const size = { x: 3, y: 2 };
-const Patate = ({ position = { x: 0, y: 0 } }) => (
-  <div
-    style={{
-      gridRowStart: position.x + 1,
-      gridRowEnd: position.x + 1 + size.x,
-      gridColumnStart: position.y + 1,
-      gridColumnEnd: position.y + 1 + size.y,
-      backgroundColor: 'red'
-    }}
-  >
-    Test
-  </div>
-);
+const componentName = 'Patate';
+const size = { x: 2, y: 1 };
+const Patate = ({ position = { x: 0, y: 0 }, id = 0 }) => {
+  const [{ opacity }, dragRef] = useDrag({
+    item: { type: DND_MODULE, id },
+    collect: monitor => ({
+      opacity: monitor.isDragging() ? 0.5 : 1
+    })
+  });
+  return (
+    <div
+      ref={dragRef}
+      style={{
+        gridRowStart: position.y + 1,
+        gridRowEnd: position.y + 1 + size.y,
+        gridColumnStart: position.x + 1,
+        gridColumnEnd: position.x + 1 + size.x,
+        backgroundColor: 'red',
+        opacity
+      }}
+    >
+      Test
+    </div>
+  );
+};
 
 const MyModule = {
-  componentName: 'Patate',
+  componentName,
   component: Patate,
   size
 };

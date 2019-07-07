@@ -2,6 +2,7 @@ export const ADD_ERROR = 'ADD_ERROR';
 export const HANDLE_ERROR = 'HANDLE_ERROR';
 
 export const ADD_MODULE = 'ADD_MODULE';
+export const MOVE_MODULE = 'MOVE_MODULE';
 export const REMOVE_MODULE = 'REMOVE_MODULE';
 
 let boardLayout = [];
@@ -26,7 +27,9 @@ boardLayout[0][1] = {
 
 export const INITIAL_STATE = {
   board: {
-    layout: boardLayout
+    modules: [],
+    height: height,
+    width: width
   },
   errors: []
 };

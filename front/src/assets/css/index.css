@@ -18,9 +18,3 @@ code {
   display: grid;
   grid-gap: 5px;
 }
-
-.board-square {
-  height: 100%;
-  width: 100%;
-  border: 1px solid grey;
-}
