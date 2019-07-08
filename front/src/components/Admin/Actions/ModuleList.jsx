@@ -13,11 +13,17 @@ class ModuleList extends Component {
     super(props);
 
     this.state = {
-      modules
+      modules,
+      selectedModule: ''
     };
 
     this.onButtonAddClick = this.onButtonAddClick.bind(this);
   }
+
+  handleChange(event) {
+    this.setState({ [event.target.id]: event.target.value });
+  }
+
   onButtonAddClick(m) {
     this.props.addModule({
       componentName: m.componentName,
@@ -27,21 +33,41 @@ class ModuleList extends Component {
   }
 
   render() {
+    const { selectedModule, modules } = this.state;
+
     return (
-      <div className="list">
-        {this.state.modules.map(m => (
-          <button
-            className="btn btn-primary"
-            onClick={() => this.onButtonAddClick(m)}
+      <form className="list form-inline">
+        <div class="form-group">
+          <select
+            class="form-control"
+            id="selectedModule"
+            onChange={this.handleChange}
+            value={selectedModule}
           >
-            Add {m.componentName}
-          </button>
-        ))}
-      </div>
+            {modules.map(m => {
+              return (
+                <option value={m.id} key={m.id}>
+                  {m.componentName}
+                </option>
+              );
+            })}
+          </select>
+        </div>
+      </form>
     );
   }
 }
 
+/*
+            {this.state.modules.map(m => (
+              <button
+                className="btn btn-primary"
+                onClick={() => this.onButtonAddClick(m)}
+              >
+                Add {m.componentName}
+              </button>
+            ))}
+*/
 export default connect(
   null,
   mapDispatchToProps
