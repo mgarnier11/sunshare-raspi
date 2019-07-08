@@ -10,18 +10,6 @@ let ids = 0;
 export function board(board = INITIAL_STATE.board, action) {
   switch (action.type) {
     case ADD_MODULE:
-      /*
-      let boardLayout = [...board.layout];
-
-      for (let y = 0; y < action.module.size.y; y++) {
-        Array.prototype.splice.apply(
-          boardLayout[action.module.position.y + y],
-          [action.module.position.x, action.module.size.x].concat([
-            ...Array(action.module.size.x).fill(true)
-          ])
-        );
-      }*/
-
       return Object.assign({}, board, {
         modules: board.modules.concat(
           Object.assign(
@@ -44,7 +32,9 @@ export function board(board = INITIAL_STATE.board, action) {
         )
       });
     case REMOVE_MODULE:
-      return board;
+      return Object.assign({}, board, {
+        modules: board.modules.filter(m => m.id !== action.moduleId)
+      });
     default:
       return board;
   }

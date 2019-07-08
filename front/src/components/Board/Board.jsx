@@ -5,7 +5,6 @@ import BoardSquare from './BoardSquare';
 import { addModule } from '../../redux/actions/board-actions';
 
 import Patate from '../../modules/Patate';
-import Test from '../../modules/Test';
 import ModuleLoader from '../ModuleLoader';
 
 const mapStateToProps = state => {
@@ -41,29 +40,32 @@ class Board extends Component {
 
   render() {
     return (
-      <div
-        className="board"
-        style={{
-          gridTemplateColumns: 'repeat(' + this.props.board.width + ', 1fr)',
-          gridTemplateRows: 'repeat(' + this.props.board.height + ', 1fr)'
-        }}
-      >
-        {[...Array(this.props.board.height)].map((valueX, x) => {
-          return [...Array(this.props.board.width)].map((valueY, y) => {
-            return <BoardSquare x={x} y={y} />;
-          });
-        })}
-        {this.props.board.modules.map(m => {
-          return (
-            <ModuleLoader
-              componentName={m.componentName}
-              moduleProps={{
-                position: { x: m.position.x, y: m.position.y },
-                id: m.id
-              }}
-            />
-          );
-        })}
+      <div className="board-container">
+        <div
+          className="board"
+          style={{
+            gridTemplateColumns: 'repeat(' + this.props.board.width + ', 1fr)',
+            gridTemplateRows: 'repeat(' + this.props.board.height + ', 1fr)'
+          }}
+        >
+          {[...Array(this.props.board.height)].map((valueX, x) => {
+            return [...Array(this.props.board.width)].map((valueY, y) => {
+              return <BoardSquare x={x} y={y} key={(x + 1) * (y + 1)} />;
+            });
+          })}
+          {this.props.board.modules.map(m => {
+            return (
+              <ModuleLoader
+                key={m.id}
+                componentName={m.componentName}
+                moduleProps={{
+                  position: { x: m.position.x, y: m.position.y },
+                  id: m.id
+                }}
+              />
+            );
+          })}
+        </div>
       </div>
     );
   }

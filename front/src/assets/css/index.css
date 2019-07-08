@@ -13,8 +13,29 @@ code {
 }
 
 .board {
-  height: 800px;
-  width: 800px;
+  /*height: 800px;
+  width: 800px;*/
   display: grid;
-  grid-gap: 5px;
+  grid-gap: 0px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.board-container {
+  width: 100%;
+  position: relative;
+  float: left;
+}
+
+.board-container::before {
+  content: '';
+  display: block;
+  margin-top: 56.25%;
+}
+
+.actions .trash {
+  font-size: 5vh;
 }

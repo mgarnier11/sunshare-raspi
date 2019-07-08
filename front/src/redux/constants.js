@@ -7,8 +7,8 @@ export const REMOVE_MODULE = 'REMOVE_MODULE';
 
 let boardLayout = [];
 
-let height = 10;
-let width = 10;
+let height = 12;
+let width = 12;
 
 for (let i = 0; i < height; i++) {
   let boardLine = [];

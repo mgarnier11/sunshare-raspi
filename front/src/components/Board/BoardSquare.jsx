@@ -24,9 +24,9 @@ function canMoveModule(mod, nextPosition, size) {
 }
 
 const BoardSquare = ({ board, moveModule, x, y }) => {
-  const [{ isOver, canDrop }, drop] = useDrop({
+  const [{ isOver }, drop] = useDrop({
     accept: DND_MODULE,
-    drop: (item, monitor) => {
+    drop: item => {
       moveModule(item.id, { x, y });
     },
     canDrop: item => {
@@ -40,8 +40,7 @@ const BoardSquare = ({ board, moveModule, x, y }) => {
       return true;
     },
     collect: monitor => ({
-      isOver: !!monitor.isOver(),
-      canDrop: !!monitor.canDrop()
+      isOver: !!monitor.isOver()
     })
   });
   return (
@@ -52,7 +51,8 @@ const BoardSquare = ({ board, moveModule, x, y }) => {
         gridRowEnd: y + 2,
         gridColumnStart: x + 1,
         gridColumnEnd: x + 2,
-        border: '1px solid red'
+        border: '1px solid red',
+        backgroundColor: isOver ? '#CCC' : ''
       }}
     />
   );
