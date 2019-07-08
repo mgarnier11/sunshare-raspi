@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import BoardSquare from './BoardSquare';
 import { addModule } from '../../redux/actions/board-actions';
 
-import Patate from '../../modules/Patate';
+import modules from '../../modules/index';
 import ModuleLoader from '../ModuleLoader';
 
 const mapStateToProps = state => {
@@ -25,16 +25,11 @@ class Board extends Component {
   constructor(props) {
     super(props);
 
+    console.log(modules);
     this.props.addModule({
-      componentName: Patate.componentName,
+      componentName: modules[1].componentName,
       position: { x: 7, y: 2 },
-      size: Patate.size
-    });
-
-    this.props.addModule({
-      componentName: Patate.componentName,
-      position: { x: 7, y: 2 },
-      size: Patate.size
+      size: modules[1].size
     });
   }
 

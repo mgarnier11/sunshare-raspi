@@ -1,15 +1,14 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
 import { DND_MODULE } from '../dragAndDrop/constants';
-import Radar from './radar/radar';
 
-const componentName = 'Patate';
-const size = { x: 5, y: 5 };
-const Patate = ({ position = { x: 0, y: 0 }, id = 0 }) => {
+const componentName = 'RedSquare';
+const size = { x: 1, y: 1 };
+const RedSquare = ({ text, position = { x: 0, y: 0 }, id = 0 }) => {
   const [{ opacity }, dragRef] = useDrag({
     item: { type: DND_MODULE, id },
     collect: monitor => ({
-      opacity: monitor.isDragging() ? 0.0 : 1
+      opacity: monitor.isDragging() ? 0.7 : 1
     })
   });
   return (
@@ -24,14 +23,14 @@ const Patate = ({ position = { x: 0, y: 0 }, id = 0 }) => {
         opacity
       }}
     >
-      <Radar />
+      {text}
     </div>
   );
 };
 
 const MyModule = {
   componentName,
-  component: Patate,
+  component: RedSquare,
   size
 };
 
