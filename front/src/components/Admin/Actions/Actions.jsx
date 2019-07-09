@@ -33,7 +33,7 @@ const Actions = ({ removeModule }) => {
         ref={drop}
         style={{ color: isOver ? 'red' : '' }}
       >
-        <i class="fas fa-trash-alt" />
+        <i className="fas fa-trash-alt" />
       </div>
     </div>
   );

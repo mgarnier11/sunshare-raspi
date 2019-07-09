@@ -1,9 +1,12 @@
 export const ADD_ERROR = 'ADD_ERROR';
 export const HANDLE_ERROR = 'HANDLE_ERROR';
 
+export const MODULE_STARTED = 'MODULE_STARTED';
+export const MODULE_ERROR = 'MODULE_ERROR';
 export const ADD_MODULE = 'ADD_MODULE';
 export const MOVE_MODULE = 'MOVE_MODULE';
 export const REMOVE_MODULE = 'REMOVE_MODULE';
+export const LOAD_MODULES = 'LOAD_MODULES';
 
 let boardLayout = [];
 
@@ -29,7 +32,8 @@ export const INITIAL_STATE = {
   board: {
     modules: [],
     height: height,
-    width: width
+    width: width,
+    loading: false
   },
   errors: []
 };

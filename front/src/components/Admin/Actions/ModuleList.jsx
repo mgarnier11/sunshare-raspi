@@ -67,7 +67,7 @@ class ModuleList extends Component {
             onChange={this.handleModuleChange}
             value={selectedModule}
           >
-            <option selected value="">
+            <option defaultValue value="">
               Choose...
             </option>
 

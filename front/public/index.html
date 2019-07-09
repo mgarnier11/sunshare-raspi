@@ -38,6 +38,15 @@
       crossorigin="anonymous"
     />
     <title>React App</title>
+
+    <script>
+      const env = '%NODE_ENV%';
+
+      if (env == 'development') window.apiUrl = 'http://localhost:3001';
+      else if (env == 'production') window.apiUrl = '/';
+      else window.apiUrl = '';
+      console.log(window.apiUrl);
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

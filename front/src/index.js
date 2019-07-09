@@ -8,8 +8,11 @@ import ErrorComponent from './components/ErrorHandler';
 import './assets/css/index.css';
 import App from './components/App';
 import store from './redux/store';
+import { loadModules } from './redux/actions/board-actions';
 
 import * as serviceWorker from './serviceWorker';
+
+store.dispatch(loadModules());
 
 ReactDOM.render(
   <Provider store={store}>

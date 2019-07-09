@@ -26,11 +26,13 @@ class Board extends Component {
     super(props);
 
     console.log(modules);
+    /*
     this.props.addModule({
       componentName: modules[1].componentName,
       position: { x: 7, y: 2 },
       size: modules[1].size
     });
+    */
   }
 
   render() {
