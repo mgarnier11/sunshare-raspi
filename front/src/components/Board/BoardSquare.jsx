@@ -46,6 +46,7 @@ const BoardSquare = ({ board, moveModule, x, y }) => {
   return (
     <div
       ref={drop}
+      className="board-square"
       style={{
         gridRowStart: y + 1,
         gridRowEnd: y + 2,

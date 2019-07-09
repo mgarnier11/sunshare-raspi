@@ -11,7 +11,7 @@ const Admin = () => (
   <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
     <Actions />
 
-    <Board />
+    <Board admin={true} />
   </DndProvider>
 );
 

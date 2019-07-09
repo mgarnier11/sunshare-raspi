@@ -5,7 +5,8 @@ import BoardSquare from './BoardSquare';
 import { addModule } from '../../redux/actions/board-actions';
 
 import modules from '../../modules/index';
-import ModuleLoader from '../ModuleLoader';
+import ModuleLoader from '../old/ModuleLoader';
+import BoardModule from './BoardModule';
 
 const mapStateToProps = state => {
   return {
@@ -24,15 +25,6 @@ class Board extends Component {
 
   constructor(props) {
     super(props);
-
-    console.log(modules);
-    /*
-    this.props.addModule({
-      componentName: modules[1].componentName,
-      position: { x: 7, y: 2 },
-      size: modules[1].size
-    });
-    */
   }
 
   render() {
@@ -45,26 +37,29 @@ class Board extends Component {
             gridTemplateRows: 'repeat(' + this.props.board.height + ', 1fr)'
           }}
         >
-          {[...Array(this.props.board.height)].map((valueX, x) => {
-            return [...Array(this.props.board.width)].map((valueY, y) => {
-              return <BoardSquare x={x} y={y} key={(x + 1) * (y + 1)} />;
-            });
-          })}
-          {this.props.board.modules.map(m => {
-            return (
-              <ModuleLoader
-                key={m.id}
-                componentName={m.componentName}
-                moduleProps={{
-                  position: { x: m.position.x, y: m.position.y },
-                  id: m.id
-                }}
-              />
-            );
-          })}
+          {this.props.admin ? this.renderAdmin() : this.renderDisplay()}
         </div>
       </div>
     );
+  }
+
+  renderAdmin() {
+    return (
+      <>
+        {[...Array(this.props.board.height)].map((valueX, x) => {
+          return [...Array(this.props.board.width)].map((valueY, y) => {
+            return <BoardSquare x={x} y={y} key={(x + 1) * (y + 1)} />;
+          });
+        })}
+        {this.props.board.modules.map(m => {
+          return <BoardModule mod={m} moduleProps={{ text: '' }} key={m.id} />;
+        })}
+      </>
+    );
+  }
+
+  renderDisplay() {
+    return <></>;
   }
 }
 

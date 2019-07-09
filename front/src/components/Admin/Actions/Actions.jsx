@@ -16,7 +16,6 @@ const Actions = ({ removeModule }) => {
   const [{ isOver }, drop] = useDrop({
     accept: DND_MODULE,
     drop: item => {
-      console.log(item);
       removeModule(item.id);
     },
     collect: monitor => ({

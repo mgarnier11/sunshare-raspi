@@ -36,6 +36,10 @@ code {
   margin-top: 56.25%;
 }
 
+.board-square {
+  border: none;
+}
+
 .actions .trash {
   font-size: 5vh;
 }
