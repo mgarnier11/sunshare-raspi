@@ -5,13 +5,13 @@ import TouchBackend from 'react-dnd-touch-backend';
 import { DndProvider } from 'react-dnd';
 
 import Actions from './Actions/Actions';
-import Board from '../Board/Board';
+import AdminBoard from '../Board/AdminBoard';
 
 const Admin = () => (
   <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
     <Actions />
 
-    <Board admin={true} />
+    <AdminBoard admin={true} />
   </DndProvider>
 );
 

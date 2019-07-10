@@ -1,9 +1,9 @@
 import React from 'react';
-import Board from '../Board/Board';
+import DisplayBoard from '../Board/DisplayBoard';
 
 const Display = () => (
   <div className="display">
-    <Board />
+    <DisplayBoard />
   </div>
 );
 

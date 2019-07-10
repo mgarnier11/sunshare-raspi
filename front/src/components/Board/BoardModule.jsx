@@ -5,7 +5,7 @@ import { DND_MODULE } from '../../dragAndDrop/constants';
 const specs = {
   canDrag(props) {
     // You can disallow drag based on props
-    return true;
+    return props.drag;
   },
 
   beginDrag(props, monitor, component) {
@@ -26,7 +26,7 @@ function collect(connect, monitor) {
   };
 }
 
-class BoardModule extends Component {
+export class BoardModule extends Component {
   constructor(props) {
     super(props);
 
@@ -51,23 +51,28 @@ class BoardModule extends Component {
     const { loadedModule } = this.state;
     const { connectDragSource, mod, moduleProps } = this.props;
 
-    return connectDragSource(
-      <div
-        style={{
-          gridRowStart: mod.position.y + 1,
-          gridRowEnd: mod.position.y + 1 + mod.size.y,
-          gridColumnStart: mod.position.x + 1,
-          gridColumnEnd: mod.position.x + 1 + mod.size.x
-        }}
-        className="board-module"
-      >
-        {loadedModule ? (
-          React.createElement(loadedModule.default.component, moduleProps)
-        ) : (
-          <></>
-        )}
-      </div>
-    );
+    if (typeof connectDragSource === 'function') return connectDragSource(m());
+    else return m();
+
+    function m() {
+      return (
+        <div
+          style={{
+            gridRowStart: mod.position.y + 1,
+            gridRowEnd: mod.position.y + 1 + mod.size.y,
+            gridColumnStart: mod.position.x + 1,
+            gridColumnEnd: mod.position.x + 1 + mod.size.x
+          }}
+          className="board-module"
+        >
+          {loadedModule ? (
+            React.createElement(loadedModule.default.component, moduleProps)
+          ) : (
+            <></>
+          )}
+        </div>
+      );
+    }
   }
 }
 

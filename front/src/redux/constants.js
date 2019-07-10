@@ -10,8 +10,8 @@ export const LOAD_MODULES = 'LOAD_MODULES';
 
 let boardLayout = [];
 
-let height = 12;
-let width = 12;
+let height = 15;
+let width = 15;
 
 for (let i = 0; i < height; i++) {
   let boardLine = [];

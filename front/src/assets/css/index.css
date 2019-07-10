@@ -24,13 +24,16 @@ code {
   right: 0;
 }
 
-.board-container {
+.display-board-container {
+}
+
+.admin-board-container {
   width: 100%;
   position: relative;
   float: left;
 }
 
-.board-container::before {
+.admin-board-container::before {
   content: '';
   display: block;
   margin-top: 56.25%;
@@ -46,4 +49,8 @@ code {
 
 .actions .list {
   font-size: 2.5vh;
+}
+
+.VictoryContainer > svg {
+  height: 100% !important;
 }

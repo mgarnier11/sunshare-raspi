@@ -1,4 +1,8 @@
 import openSocket from 'socket.io-client';
+
+import store from '../redux/store';
+import { ADD_MODULE, MOVE_MODULE, REMOVE_MODULE } from '../redux/constants';
+
 class ApiHandler {
   constructor() {
     this.socket = openSocket(window.apiUrl);
@@ -6,6 +10,21 @@ class ApiHandler {
     this.socket.on('connect', () =>
       console.log('succesfully connected to api')
     );
+
+    this.socket.on('modules/create', createdModule => {
+      console.log(createdModule);
+      store.dispatch({ type: ADD_MODULE, module: createdModule });
+    });
+
+    this.socket.on('modules/update', updatedModule => {
+      console.log(updatedModule);
+      store.dispatch({ type: MOVE_MODULE, movedModule: updatedModule });
+    });
+
+    this.socket.on('modules/delete', deletedModule => {
+      console.log(deletedModule);
+      store.dispatch({ type: REMOVE_MODULE, moduleId: deletedModule._id });
+    });
   }
 
   addModule(datas) {
@@ -20,7 +39,6 @@ class ApiHandler {
   moveModule(moduleId, nextPosition) {
     return new Promise((res, rej) => {
       const datas = { _id: moduleId, position: nextPosition };
-      console.log(datas);
       this.socket.emit('modules/update', moduleId, datas, updatedModule => {
         if (updatedModule.err) rej(updatedModule.err);
         res(updatedModule);

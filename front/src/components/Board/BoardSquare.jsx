@@ -52,7 +52,7 @@ const BoardSquare = ({ board, moveModule, x, y }) => {
         gridRowEnd: y + 2,
         gridColumnStart: x + 1,
         gridColumnEnd: x + 2,
-        border: '1px solid red',
+        border: '1px dashed grey',
         backgroundColor: isOver ? '#CCC' : ''
       }}
     />
