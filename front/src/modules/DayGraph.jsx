@@ -86,7 +86,7 @@ class DayGraph extends Component {
           />
           <VictoryAxis
             dependentAxis
-            domain={[0]}
+            domain={[0, 11]}
             // tickFormat specifies how ticks should be displayed
             tickFormat={x => `${x * 10}%`}
           />

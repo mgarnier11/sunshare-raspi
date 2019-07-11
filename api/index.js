@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
 const http = require('http');
+const dotenv = require('dotenv').config(); //you need a .env file with db infos in it
 const build = path.join(__dirname, '../build');
 const moduleSocketController = require('./socketControllers/module-socketController');
 const dataSocketController = require('./socketControllers/data-socketController');
@@ -10,13 +11,14 @@ const dataSocketController = require('./socketControllers/data-socketController'
 const DataHandler = require('./data-handler');
 
 const port = process.env.PORT || 3001;
+const dbString = process.env.DB || 'mongodb://localhost:27017/sunshare';
 
 mongoose.Promise = global.Promise;
 
 const timeIntervall = 1000; //60 * 5 * 1000;
 
 mongoose
-  .connect('mongodb://localhost:27017/sunshare', {
+  .connect(dbString, {
     useNewUrlParser: true,
     useFindAndModify: false
   })
@@ -27,7 +29,8 @@ mongoose
 
       app.use(bodyParser.urlencoded({ extended: true }));
       app.use(bodyParser.json());
-      app.use(express.static(build)); //Serves resources from public folder
+      app.use(express.static(build));
+      app.use('/admin', express.static(build)); //Serves resources from public folder
 
       const server = http.createServer(app);
 
