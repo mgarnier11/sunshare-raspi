@@ -3,7 +3,7 @@ const EventEmitter = require('events');
 class DataHandler {
   constructor(timeIntervall) {
     this.timeIntervall = timeIntervall;
-    this.datasToKeep = (12 * 60 * 60 * 1000) / timeIntervall;
+    this.datasToKeep = (24 * 60 * 60 * 1000) / timeIntervall;
 
     this.events = new EventEmitter();
 

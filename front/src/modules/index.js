@@ -1,9 +1,21 @@
-import RedSquare from './RedSquare';
-import BlueSquare from './BlueSquare';
-import BigSquare from './BigSquare';
-import Graph from './Graph';
+import Logo from './Logo';
+import Title from './Title';
 import DayGraph from './DayGraph';
+import ProdGraph from './ProdGraph';
+import Title2 from './Title2';
+import Title3 from './Title3';
+import WeekIndex from './WeekIndex';
+import TotalIndex from './TotalIndex';
 
-const modules = [RedSquare, BlueSquare, BigSquare, Graph, DayGraph];
+const modules = [
+  Logo,
+  Title,
+  DayGraph,
+  ProdGraph,
+  Title2,
+  Title3,
+  WeekIndex,
+  TotalIndex
+];
 
 export default modules;

@@ -15,7 +15,7 @@ const dbString = process.env.DB || 'mongodb://localhost:27017/sunshare';
 
 mongoose.Promise = global.Promise;
 
-const timeIntervall = 1000; //60 * 5 * 1000;
+const timeIntervall = 10000; //60 * 5 * 1000;
 
 mongoose
   .connect(dbString, {

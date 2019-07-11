@@ -3,7 +3,7 @@ import { VictoryChart, VictoryTheme, VictoryAxis, VictoryLine } from 'victory';
 import openSocket from 'socket.io-client';
 
 const componentName = 'DayGraph';
-const size = { x: 15, y: 6 };
+const size = { x: 11, y: 5 };
 
 const timerIntervall = 1 * 1000;
 
@@ -105,7 +105,6 @@ class DayGraph extends Component {
               .slice()
               .reverse()
               .map((tick, i) => {
-                console.log(tick);
                 return { x: i, y: tick };
               })}
           />
