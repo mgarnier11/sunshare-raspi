@@ -5,10 +5,15 @@ const path = require('path');
 const http = require('http');
 const build = path.join(__dirname, '../build');
 const moduleSocketController = require('./socketControllers/module-socketController');
+const dataSocketController = require('./socketControllers/data-socketController');
+
+const DataHandler = require('./data-handler');
 
 const port = process.env.PORT || 3001;
 
 mongoose.Promise = global.Promise;
+
+const timeIntervall = 1000; //60 * 5 * 1000;
 
 mongoose
   .connect('mongodb://localhost:27017/sunshare', {
@@ -28,6 +33,10 @@ mongoose
 
       server.listen(port);
 
+      const dataHandler = new DataHandler(timeIntervall);
+
+      dataHandler.startTimer();
+
       console.log(`server is listenning on port : ${port}`);
 
       const io = require('socket.io')(server);
@@ -35,6 +44,14 @@ mongoose
       io.on('connection', socket => {
         console.log('an user connected');
         moduleSocketController(socket, io);
+      });
+
+      const dataNsp = io.of('datas');
+
+      dataNsp.on('connection', socket => {
+        console.log('an user connected to datas namespace');
+
+        dataSocketController(dataHandler, socket, dataNsp);
       });
     },
     err => {

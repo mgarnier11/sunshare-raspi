@@ -12,17 +12,14 @@ class ApiHandler {
     );
 
     this.socket.on('modules/create', createdModule => {
-      console.log(createdModule);
       store.dispatch({ type: ADD_MODULE, module: createdModule });
     });
 
     this.socket.on('modules/update', updatedModule => {
-      console.log(updatedModule);
       store.dispatch({ type: MOVE_MODULE, movedModule: updatedModule });
     });
 
     this.socket.on('modules/delete', deletedModule => {
-      console.log(deletedModule);
       store.dispatch({ type: REMOVE_MODULE, moduleId: deletedModule._id });
     });
   }

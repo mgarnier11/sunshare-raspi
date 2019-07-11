@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { VictoryChart, VictoryTheme, VictoryAxis, VictoryLine } from 'victory';
+import openSocket from 'socket.io-client';
 
 const componentName = 'DayGraph';
 const size = { x: 15, y: 6 };
 
 const timerIntervall = 1 * 1000;
-
-function rnd(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
 
 class DayGraph extends Component {
   constructor(props) {
@@ -16,77 +13,41 @@ class DayGraph extends Component {
 
     this.state = {
       timeTicks: [],
-      dataTicks: []
+      prodDataTicks: [],
+      consoDataTicks: []
     };
 
     this.divRef = React.createRef();
 
-    this.timer = undefined;
-
-    this.updateTicks = this.updateTicks.bind(this);
-  }
-
-  updateTicks() {
-    let timeTicks = [...this.state.timeTicks];
-
-    timeTicks.pop();
-
-    timeTicks.unshift(new Date());
-
-    let dataTicks = [...this.state.dataTicks];
-
-    dataTicks.pop();
-
-    dataTicks.unshift(this.nextDataTick(dataTicks[0]));
-
-    this.setState({ timeTicks, dataTicks });
-  }
-
-  getTimeTicks() {
-    let ticks = [];
-
-    let d = new Date();
-    ticks.unshift(d);
-
-    while (ticks.length < 11) {
-      d = new Date(Date.parse(d) - timerIntervall);
-      ticks.unshift(d);
-    }
-
-    return ticks.reverse();
-  }
-
-  getDataTicks() {
-    let ticks = [10];
-
-    while (ticks.length < 11) {
-      ticks.unshift(this.nextDataTick(ticks[0]));
-    }
-
-    return ticks.reverse();
-  }
-
-  nextDataTick(lastTick) {
-    let ud = rnd(0, 1);
-
-    let nextTick = ud === 0 ? lastTick + rnd(0, 5) : lastTick - rnd(0, 5);
-    if (nextTick < 0) nextTick = 0;
-    return nextTick;
+    this.socket = openSocket(window.apiUrl + '/datas');
   }
 
   componentDidMount() {
-    this.timer = setInterval(this.updateTicks, timerIntervall);
-    this.setState({
-      timeTicks: this.getTimeTicks(),
-      dataTicks: this.getDataTicks()
+    this.socket.on('datas/prod/new', newData => {
+      let timeTicks = [...this.state.timeTicks];
+      let prodDataTicks = [...this.state.prodDataTicks];
+
+      timeTicks.pop();
+
+      timeTicks.unshift(new Date(newData.date));
+
+      prodDataTicks.pop();
+
+      prodDataTicks.unshift(newData.value);
+
+      this.setState({ timeTicks, prodDataTicks });
+    });
+
+    this.socket.emit('datas/prod/getAll', allDatas => {
+      let timeTicks = allDatas.map(data => new Date(data.date));
+      let prodDataTicks = allDatas.map(data => data.value);
+      this.setState({ timeTicks, prodDataTicks });
     });
   }
 
-  componentWillUnmount() {
-    clearInterval(this.timer);
-  }
+  componentWillUnmount() {}
   render() {
-    const { timeTicks, dataTicks } = this.state;
+    const { timeTicks, prodDataTicks } = this.state;
 
     return (
       <div
@@ -101,10 +62,14 @@ class DayGraph extends Component {
           <VictoryAxis
             // tickValues specifies both the number of ticks and where
             // they are placed on the axis
-            tickValues={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+            tickValues={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]}
             tickFormat={timeTicks
               .slice()
               .reverse()
+              .filter((date, i) => {
+                if (i % parseInt(timeTicks.length / 11) === 0) return true;
+                return false;
+              })
               .map(
                 date =>
                   `${date
@@ -123,18 +88,24 @@ class DayGraph extends Component {
             dependentAxis
             domain={[0]}
             // tickFormat specifies how ticks should be displayed
-            tickFormat={x => `${x}W`}
+            tickFormat={x => `${x * 10}%`}
           />
+
           <VictoryLine
             style={{
               data: { stroke: '#c43a31' },
               parent: { border: '1px solid #ccc' }
             }}
             interpolation="natural"
-            data={dataTicks
+            data={prodDataTicks
+              .filter((data, i) => {
+                if (i % parseInt(prodDataTicks.length / 11) === 0) return true;
+                return false;
+              })
               .slice()
               .reverse()
               .map((tick, i) => {
+                console.log(tick);
                 return { x: i, y: tick };
               })}
           />
