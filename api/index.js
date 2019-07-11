@@ -11,65 +11,54 @@ const dataSocketController = require('./socketControllers/data-socketController'
 const DataHandler = require('./data-handler');
 
 const port = process.env.PORT || 3001;
-const localString = 'mongodb://localhost:27017/sunshare';
-const externalString =
-  'mongodb://sunshare:1mo2Pa55e@ds249967.mlab.com:49967/sunshare';
+const dbString = process.env.DB || 'mongodb://localhost:27017/sunshare';
 
 mongoose.Promise = global.Promise;
 
 const timeIntervall = 1000; //60 * 5 * 1000;
 
 mongoose
-  .connect(localString, {
+  .connect(dbString, {
     useNewUrlParser: true,
     useFindAndModify: false
   })
-  .then(setupServer, err => {
-    console.log('error in db connection');
-    console.log(err);
+  .then(
+    () => {
+      console.log('connected to db');
+      const app = express();
 
-    mongoose
-      .connect(externalString, {
-        useNewUrlParser: true,
-        useFindAndModify: false
-      })
-      .then(setupServer, err => {
-        console.log('error in db connection');
-        console.log(err);
+      app.use(bodyParser.urlencoded({ extended: true }));
+      app.use(bodyParser.json());
+      app.use(express.static(build));
+      app.use('/admin', express.static(build)); //Serves resources from public folder
+
+      const server = http.createServer(app);
+
+      server.listen(port);
+
+      const dataHandler = new DataHandler(timeIntervall);
+
+      dataHandler.startTimer();
+
+      console.log(`server is listenning on port : ${port}`);
+
+      const io = require('socket.io')(server);
+
+      io.on('connection', socket => {
+        console.log('an user connected');
+        moduleSocketController(socket, io);
       });
-  });
 
-const setupServer = () => {
-  console.log('connected to db');
-  const app = express();
+      const dataNsp = io.of('datas');
 
-  app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(bodyParser.json());
-  app.use(express.static(build));
-  app.use('/admin', express.static(build)); //Serves resources from public folder
+      dataNsp.on('connection', socket => {
+        console.log('an user connected to datas namespace');
 
-  const server = http.createServer(app);
-
-  server.listen(port);
-
-  const dataHandler = new DataHandler(timeIntervall);
-
-  dataHandler.startTimer();
-
-  console.log(`server is listenning on port : ${port}`);
-
-  const io = require('socket.io')(server);
-
-  io.on('connection', socket => {
-    console.log('an user connected');
-    moduleSocketController(socket, io);
-  });
-
-  const dataNsp = io.of('datas');
-
-  dataNsp.on('connection', socket => {
-    console.log('an user connected to datas namespace');
-
-    dataSocketController(dataHandler, socket, dataNsp);
-  });
-};
+        dataSocketController(dataHandler, socket, dataNsp);
+      });
+    },
+    err => {
+      console.log('error in db connection');
+      console.log(err);
+    }
+  );
